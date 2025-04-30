@@ -32,7 +32,8 @@ export function Footer() {
               : "Professionals in cleaning hoods, ducts and extraction systems. More than 30 years of experience support our services."}
           </p>
 
-          <div className="flex space-x-6 mb-8">
+          {/* Menú de navegación - oculto en móviles */}
+          <div className="hidden md:flex space-x-6 mb-8">
             <motion.button
               onClick={() => scrollToSection("inicio")}
               className="text-gray-400 hover:text-[#ccb699]"
