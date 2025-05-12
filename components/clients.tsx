@@ -115,7 +115,7 @@ export function Clients() {
 
   // Ajustar número de items por slide según el tamaño de pantalla
   const getItemsPerSlide = () => {
-    if (isMobile) return 3 // Cambiado de 1 a 3 para móviles
+    if (isMobile) return 3
     if (isTablet) return 3
     return 4 // Desktop
   }
@@ -131,23 +131,30 @@ export function Clients() {
     setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1))
   }, [totalSlides])
 
+  // Autoplay con intervalo de 1.5 segundos
   useEffect(() => {
-    if (!autoplay) return
+    if (!autoplay || !inView) return
 
     const interval = setInterval(() => {
       nextSlide()
-    }, 3000)
+    }, 1500) // Cambiado de 3000 a 1500 ms (1.5 segundos)
 
     return () => clearInterval(interval)
-  }, [autoplay, nextSlide])
+  }, [autoplay, nextSlide, inView])
 
   // Resetear el slide actual cuando cambia el número de items por slide
   useEffect(() => {
     setCurrentSlide(0)
   }, [itemsPerSlide])
 
+  // Pausar autoplay al interactuar y reanudar después
   const handleMouseEnter = () => setAutoplay(false)
   const handleMouseLeave = () => setAutoplay(true)
+  const handleTouchStart = () => setAutoplay(false)
+  const handleTouchEnd = () => {
+    // Retrasar la reanudación del autoplay para permitir el toque
+    setTimeout(() => setAutoplay(true), 1000)
+  }
 
   // Determinar el ancho de cada logo según el número de items por slide
   const getLogoWidth = () => {
@@ -181,6 +188,8 @@ export function Clients() {
           transition={{ duration: 0.5, delay: 0.2 }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           <div className="overflow-hidden">
             <div
