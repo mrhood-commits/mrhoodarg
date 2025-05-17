@@ -58,7 +58,7 @@ export function Franchise() {
   }
 
   return (
-    <section id="franquicias" className="py-20 bg-gray-50">
+    <section id="franquicias" className="py-20 bg-gray-50 dark:bg-[#1c1c1c]">
       <div className="container mx-auto px-4">
         <motion.div
           className="max-w-5xl mx-auto"
@@ -81,7 +81,7 @@ export function Franchise() {
                 : "Mr. Hood Franchise: Technology, Support and Success"}
             </h3>
 
-            <p className="text-lg mb-10 text-gray-700 max-w-3xl mx-auto">
+            <p className="text-lg mb-10 text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
               {language === "es"
                 ? "Nuestra franquicia ofrece una propuesta innovadora que transforma tu negocio en una inversión rentable. Con acceso a tecnología avanzada, capacitación continua y el respaldo de un equipo especializado."
                 : "Our franchise offers an innovative proposal that transforms your business into a profitable investment. With access to advanced technology, continuous training and the support of a specialized team."}
@@ -97,7 +97,7 @@ export function Franchise() {
             {features.map((feature, index) => (
               <motion.div
                 key={index}
-                className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-all"
+                className="bg-white dark:bg-[#222222] p-8 rounded-xl shadow-sm hover:shadow-md transition-all"
                 variants={item}
                 whileHover={{ y: -5 }}
                 transition={{ type: "spring", stiffness: 300 }}
@@ -105,18 +105,20 @@ export function Franchise() {
                 <div className="w-12 h-12 rounded-full bg-[#ccb699] flex items-center justify-center text-white font-bold mb-6 text-xl">
                   {index + 1}
                 </div>
-                <p className="text-lg text-gray-700">{language === "es" ? feature.titleEs : feature.titleEn}</p>
+                <p className="text-lg text-gray-700 dark:text-gray-300">
+                  {language === "es" ? feature.titleEs : feature.titleEn}
+                </p>
               </motion.div>
             ))}
           </motion.div>
 
           <motion.div
-            className="text-center p-8 bg-gradient-to-r from-[#ccb699]/20 to-[#ccb699]/30 rounded-2xl max-w-3xl mx-auto mb-10"
+            className="text-center p-8 bg-gradient-to-r from-[#ccb699]/20 to-[#ccb699]/30 dark:from-[#ccb699]/10 dark:to-[#ccb699]/20 rounded-2xl max-w-3xl mx-auto mb-10"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            <p className="text-xl font-semibold text-black">
+            <p className="text-xl font-semibold text-black dark:text-white">
               {language === "es"
                 ? "Sumate a un modelo probado y crecé con nosotros. ¡Tu éxito es nuestra prioridad!"
                 : "Join a proven model and grow with us. Your success is our priority!"}
@@ -131,7 +133,7 @@ export function Franchise() {
           >
             <Button
               onClick={openWhatsApp}
-              className="bg-black hover:bg-gray-800 text-white font-medium px-8 py-6 text-lg rounded-full"
+              className="bg-black dark:bg-[#333333] hover:bg-gray-800 dark:hover:bg-[#444444] text-white font-medium px-8 py-6 text-lg rounded-full"
             >
               {language === "es" ? "SOLICITAR INFORMACIÓN" : "REQUEST INFORMATION"}
               <ArrowRight className="ml-2 h-5 w-5" />

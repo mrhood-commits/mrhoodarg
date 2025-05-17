@@ -3,6 +3,7 @@ import type { Metadata } from "next/types"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeScript } from "@/components/theme-script"
 import Script from "next/script"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -27,6 +28,8 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/images/mrhoodlogo.png" sizes="any" />
+        {/* Script para prevenir parpadeo de tema */}
+        <ThemeScript />
         {/* Google tag (gtag.js) */}
         <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-16466325038" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -39,7 +42,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
         </ThemeProvider>
       </body>

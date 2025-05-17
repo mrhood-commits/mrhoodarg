@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react"
 import { useCountry } from "./country-provider"
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
+import { ThemeToggle } from "./theme-toggle"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -48,7 +49,9 @@ export function Header() {
       transition={{ duration: 0.5 }}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-white/95 shadow-md backdrop-blur-md" : "bg-white/80 backdrop-blur-sm",
+        isScrolled
+          ? "bg-white/95 dark:bg-[#222222]/95 shadow-md backdrop-blur-md"
+          : "bg-white/80 dark:bg-[#222222]/80 backdrop-blur-sm",
       )}
     >
       <div className="container mx-auto px-4 py-4">
@@ -65,7 +68,7 @@ export function Header() {
               <motion.button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-black hover:text-[#ccb699] transition-colors font-medium relative group"
+                className="text-black dark:text-white hover:text-[#ccb699] dark:hover:text-[#ccb699] transition-colors font-medium relative group"
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
@@ -73,31 +76,40 @@ export function Header() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#ccb699] transition-all group-hover:w-full"></span>
               </motion.button>
             ))}
-            <motion.button
-              onClick={toggleLanguage}
-              className="px-4 py-2 border border-[#ccb699] rounded-full text-[#ccb699] hover:bg-[#ccb699] hover:text-white transition-colors"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              {language === "es" ? "EN | ESP" : "EN | ESP"}
-            </motion.button>
+
+            <div className="flex items-center space-x-3">
+              <ThemeToggle />
+
+              <motion.button
+                onClick={toggleLanguage}
+                className="px-4 py-2 border border-[#ccb699] rounded-full text-[#ccb699] hover:bg-[#ccb699] hover:text-white dark:hover:text-black transition-colors"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                {language === "es" ? "EN | ESP" : "EN | ESP"}
+              </motion.button>
+            </div>
           </nav>
 
           {/* Mobile Menu Button */}
-          <motion.button
-            className="md:hidden text-black"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            whileTap={{ scale: 0.95 }}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </motion.button>
+          <div className="md:hidden flex items-center space-x-3">
+            <ThemeToggle />
+
+            <motion.button
+              className="text-black dark:text-white"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              whileTap={{ scale: 0.95 }}
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </motion.button>
+          </div>
         </div>
       </div>
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
         <motion.div
-          className="md:hidden bg-white py-4 shadow-lg"
+          className="md:hidden bg-white dark:bg-[#222222] py-4 shadow-lg"
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
@@ -108,7 +120,7 @@ export function Header() {
               <motion.button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-black hover:text-[#ccb699] transition-colors py-2 text-left"
+                className="text-black dark:text-white hover:text-[#ccb699] dark:hover:text-[#ccb699] transition-colors py-2 text-left"
                 whileTap={{ scale: 0.98 }}
               >
                 {language === "es" ? item.labelEs : item.labelEn}

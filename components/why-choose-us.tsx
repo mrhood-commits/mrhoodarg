@@ -18,9 +18,9 @@ export function WhyChooseUs() {
       titleEs: "Contamos con Certificado Homologado",
       titleEn: "We have Homologated Certificate",
       subtitleEs:
-        "Por Gobierno de la Ciudad de Buenos Aires y Asociación de Empresas de Limpieza en Sistemas de Extracción (AELSE)",
+        "por Gobierno de la Ciudad de Buenos Aires y Asociación de Empresas de Limpieza en Sistemas de Extracción (AELSE)",
       subtitleEn:
-        "By the Government of the City of Buenos Aires and the Association of Extraction System Cleaning Companies (AELSE)",
+        "by the Government of the City of Buenos Aires and the Association of Extraction System Cleaning Companies (AELSE)",
       highlight: true,
       logos: [
         { src: "/images/logo-buenos-aires.png", alt: "Gobierno de la Ciudad de Buenos Aires", width: 120, height: 40 },
@@ -103,7 +103,7 @@ export function WhyChooseUs() {
   }
 
   return (
-    <section id="porque-elegirnos" className="py-20 bg-gray-50">
+    <section id="porque-elegirnos" className="py-20 bg-gray-50 dark:bg-[#1c1c1c]">
       <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
@@ -122,7 +122,7 @@ export function WhyChooseUs() {
           </motion.h2>
 
           <motion.div
-            className="mb-16 p-8 bg-[#222222] text-white rounded-xl"
+            className="mb-16 p-8 bg-[#222222] dark:bg-[#181818] text-white rounded-xl"
             initial={{ opacity: 0, y: -20 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -145,7 +145,7 @@ export function WhyChooseUs() {
                   href={country.url || "#"}
                   target={country.url ? "_blank" : "_self"}
                   rel="noopener noreferrer"
-                  className={`flex items-center bg-[#2a2a2a] px-4 py-2 rounded-full ${!country.url ? "pointer-events-none" : "hover:bg-[#333333]"}`}
+                  className={`flex items-center bg-[#2a2a2a] dark:bg-[#222222] px-4 py-2 rounded-full ${!country.url ? "pointer-events-none" : "hover:bg-[#333333] dark:hover:bg-[#2a2a2a]"}`}
                   whileHover={{ scale: country.url ? 1.05 : 1 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
@@ -178,8 +178,8 @@ export function WhyChooseUs() {
                     key={index}
                     className={`flex flex-col p-4 ${
                       benefit.highlight
-                        ? "bg-gradient-to-r from-[#ccb699]/30 to-[#ccb699]/10 border-l-4 border-[#ccb699] shadow-md"
-                        : "bg-white"
+                        ? "bg-gradient-to-r from-[#ccb699]/30 to-[#ccb699]/10 border-l-4 border-[#ccb699] shadow-md dark:from-[#ccb699]/20 dark:to-[#ccb699]/5"
+                        : "bg-white dark:bg-[#222222]"
                     } rounded-lg ${benefit.highlight ? "py-6" : ""}`}
                     variants={item}
                     whileHover={{ x: 5 }}
@@ -198,13 +198,15 @@ export function WhyChooseUs() {
                       <div className="flex-1">
                         <p
                           className={`text-base ${
-                            benefit.highlight ? "font-bold text-[#ccb699] text-lg md:text-xl" : "text-gray-700"
+                            benefit.highlight
+                              ? "font-bold text-[#ccb699] text-lg md:text-xl"
+                              : "text-gray-700 dark:text-gray-300"
                           }`}
                         >
                           {language === "es" ? benefit.titleEs : benefit.titleEn}
                         </p>
                         {benefit.subtitleEs && (
-                          <p className="text-gray-700 mt-1">
+                          <p className="text-gray-700 dark:text-gray-300 mt-1">
                             {language === "es" ? benefit.subtitleEs : benefit.subtitleEn}
                           </p>
                         )}
@@ -216,7 +218,7 @@ export function WhyChooseUs() {
                         {benefit.logos.map((logo, logoIndex) => (
                           <div
                             key={logoIndex}
-                            className="bg-white p-3 rounded-md shadow-sm hover:shadow-md transition-shadow"
+                            className="bg-white dark:bg-[#333333] p-3 rounded-md shadow-sm hover:shadow-md transition-shadow"
                           >
                             <Image
                               src={logo.src || "/placeholder.svg"}
@@ -253,15 +255,15 @@ export function WhyChooseUs() {
                 {risks.map((risk, index) => (
                   <motion.div
                     key={index}
-                    className="bg-white p-6 rounded-xl shadow-sm flex items-start space-x-4"
+                    className="bg-white dark:bg-[#222222] p-6 rounded-xl shadow-sm flex items-start space-x-4"
                     variants={item}
                     whileHover={{ x: 5 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <div className="flex-shrink-0 bg-black/5 p-3 rounded-full">{risk.icon}</div>
+                    <div className="flex-shrink-0 bg-black/5 dark:bg-white/5 p-3 rounded-full">{risk.icon}</div>
                     <div>
                       <h4 className="text-lg font-bold mb-2">{language === "es" ? risk.titleEs : risk.titleEn}</h4>
-                      <p className="text-gray-700 text-sm">
+                      <p className="text-gray-700 dark:text-gray-300 text-sm">
                         {language === "es" ? risk.descriptionEs : risk.descriptionEn}
                       </p>
                     </div>
@@ -272,12 +274,12 @@ export function WhyChooseUs() {
           </div>
 
           <motion.div
-            className="text-center p-8 bg-gradient-to-r from-[#ccb699]/20 to-[#ccb699]/30 rounded-2xl max-w-3xl mx-auto"
+            className="text-center p-8 bg-gradient-to-r from-[#ccb699]/20 to-[#ccb699]/30 dark:from-[#ccb699]/10 dark:to-[#ccb699]/20 rounded-2xl max-w-3xl mx-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            <p className="text-xl font-semibold text-black">
+            <p className="text-xl font-semibold text-black dark:text-white">
               {language === "es"
                 ? "¡Un sistema limpio es sinónimo de seguridad y eficiencia!"
                 : "A clean system is synonymous with safety and efficiency!"}

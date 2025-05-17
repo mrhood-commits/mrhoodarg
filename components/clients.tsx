@@ -1,11 +1,11 @@
 "use client"
 
-import Image from "next/image"
 import { useCountry } from "./country-provider"
-import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useRef } from "react"
+import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import Image from "next/image"
 
 export function Clients() {
   const { language } = useCountry()
@@ -18,6 +18,7 @@ export function Clients() {
   const [autoplay, setAutoplay] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
   const [isTablet, setIsTablet] = useState(false)
+  const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   // Detectar tamaño de pantalla para responsive
   useEffect(() => {
@@ -35,221 +36,150 @@ export function Clients() {
   }, [])
 
   const clients = [
-    {
-      name: "Mercado Bazar La Plata",
-      logo: "/images/mercado-bazar.png",
-    },
-    {
-      name: "Mostaza",
-      logo: "/images/mostaza.png",
-    },
-    {
-      name: "Yacht Club Olivos",
-      logo: "/images/yacht-club-olivos.png",
-    },
-    {
-      name: "Piegari Ristorante",
-      logo: "/images/piegari.png",
-    },
-    {
-      name: "Mi Gusto",
-      logo: "/images/mi-gusto.png",
-    },
-    {
-      name: "Wyndham Hotels & Resorts",
-      logo: "/images/wyndham.png",
-    },
-    {
-      name: "Highland Park Country Club",
-      logo: "/images/highland-park.jpeg",
-    },
-    {
-      name: "Sushi Pop",
-      logo: "/images/sushi-pop.png",
-    },
-    {
-      name: "Hilton",
-      logo: "/images/hilton.jpeg",
-    },
-    {
-      name: "Howard Johnson",
-      logo: "/images/howard-johnson.png",
-    },
-    {
-      name: "La Parolaccia",
-      logo: "/images/la-parolaccia.png",
-    },
-    {
-      name: "Fabric Sushi",
-      logo: "/images/fabric-sushi.jpeg",
-    },
-    {
-      name: "La Cabrera",
-      logo: "/images/la-cabrera.png",
-    },
-    {
-      name: "La Bistecca Pasta Grill",
-      logo: "/images/la-bistecca.png",
-    },
-    {
-      name: "Alvear Palace Hotels & Residences",
-      logo: "/images/alvear-palace.png",
-    },
-    {
-      name: "Banco Galicia",
-      logo: "/images/banco-galicia.png",
-    },
-    {
-      name: "McDonald's",
-      logo: "/images/mcdonalds-logo.png",
-    },
-    {
-      name: "Galerías Pacífico",
-      logo: "/images/galerias-pacifico.png",
-    },
-    {
-      name: "Banco Santander",
-      logo: "/images/santander-logo.png",
-    },
+    { name: "Mercado Bazar La Plata", logo: "/images/mercado-bazar.png" },
+    { name: "Mostaza", logo: "/images/mostaza.png" },
+    { name: "La Cabrera", logo: "/images/la-cabrera.png" },
+    { name: "McDonald's", logo: "/images/mcdonalds-logo.png" },
+    { name: "Santander", logo: "/images/santander-logo.png" },
+    { name: "Carl's Jr", logo: "/images/carlsjr.png" },
+    { name: "Yacht Club Olivos", logo: "/images/yacht-club-olivos.png" },
+    { name: "Piegari", logo: "/images/piegari.png" },
+    { name: "Mi Gusto", logo: "/images/mi-gusto.png" },
+    { name: "Wyndham", logo: "/images/wyndham.png" },
+    { name: "Highland Park", logo: "/images/highland-park.jpeg" },
+    { name: "Sushi Pop", logo: "/images/sushi-pop.png" },
+    { name: "Hilton", logo: "/images/hilton.jpeg" },
+    { name: "Howard Johnson", logo: "/images/howard-johnson.png" },
+    { name: "La Parolaccia", logo: "/images/la-parolaccia.png" },
+    { name: "Fabric Sushi", logo: "/images/fabric-sushi.jpeg" },
+    { name: "La Bistecca", logo: "/images/la-bistecca.png" },
+    { name: "Alvear Palace", logo: "/images/alvear-palace.png" },
+    { name: "Banco Galicia", logo: "/images/banco-galicia.png" },
+    { name: "Galerías Pacífico", logo: "/images/galerias-pacifico.png" },
   ]
 
-  // Ajustar número de items por slide según el tamaño de pantalla
+  // Determinar cuántos logos mostrar por slide según el tamaño de pantalla
   const getItemsPerSlide = () => {
-    if (isMobile) return 3
-    if (isTablet) return 3
-    return 4 // Desktop
+    if (isMobile) return 1
+    if (isTablet) return 2
+    return 4
   }
 
   const itemsPerSlide = getItemsPerSlide()
   const totalSlides = Math.ceil(clients.length / itemsPerSlide)
 
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1))
-  }, [totalSlides])
-
-  const prevSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1))
-  }, [totalSlides])
-
-  // Autoplay con intervalo de 1.5 segundos
+  // Autoplay
   useEffect(() => {
-    if (!autoplay || !inView) return
+    if (autoplay && inView) {
+      autoplayTimerRef.current = setInterval(() => {
+        setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1))
+      }, 3000)
+    }
 
-    const interval = setInterval(() => {
-      nextSlide()
-    }, 1500) // Cambiado de 3000 a 1500 ms (1.5 segundos)
+    return () => {
+      if (autoplayTimerRef.current) {
+        clearInterval(autoplayTimerRef.current)
+      }
+    }
+  }, [autoplay, totalSlides, inView, itemsPerSlide])
 
-    return () => clearInterval(interval)
-  }, [autoplay, nextSlide, inView])
+  // Pausar autoplay al interactuar
+  const pauseAutoplay = () => setAutoplay(false)
+  const resumeAutoplay = () => setAutoplay(true)
 
-  // Resetear el slide actual cuando cambia el número de items por slide
-  useEffect(() => {
-    setCurrentSlide(0)
-  }, [itemsPerSlide])
-
-  // Pausar autoplay al interactuar y reanudar después
-  const handleMouseEnter = () => setAutoplay(false)
-  const handleMouseLeave = () => setAutoplay(true)
-  const handleTouchStart = () => setAutoplay(false)
-  const handleTouchEnd = () => {
-    // Retrasar la reanudación del autoplay para permitir el toque
-    setTimeout(() => setAutoplay(true), 1000)
+  // Navegación
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index)
+    pauseAutoplay()
+    // Reanudar después de un tiempo
+    setTimeout(resumeAutoplay, 5000)
   }
 
-  // Determinar el ancho de cada logo según el número de items por slide
-  const getLogoWidth = () => {
-    switch (itemsPerSlide) {
-      case 3:
-        return "w-1/3"
-      case 4:
-        return "w-1/4"
-      default:
-        return "w-1/3"
-    }
+  const nextSlide = () => {
+    goToSlide(currentSlide === totalSlides - 1 ? 0 : currentSlide + 1)
+  }
+
+  const prevSlide = () => {
+    goToSlide(currentSlide === 0 ? totalSlides - 1 : currentSlide - 1)
   }
 
   return (
-    <section id="clientes" className="py-20 bg-white">
+    <section className="py-20 bg-white dark:bg-[#222222]" ref={ref}>
       <div className="container mx-auto px-4">
         <motion.h2
           className="text-3xl md:text-4xl font-bold text-center mb-12"
           initial={{ opacity: 0, y: -20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 0.5 }}
-          ref={ref}
         >
-          {language === "es" ? "NUESTROS CLIENTES" : "OUR CLIENTS"}
+          {language === "es" ? "EMPRESAS QUE AVALAN NUESTRO TRABAJO" : "COMPANIES THAT ENDORSE OUR WORK"}
         </motion.h2>
 
         <motion.div
-          className="relative max-w-6xl mx-auto px-6 sm:px-10"
+          className="relative max-w-6xl mx-auto"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
         >
-          <div className="overflow-hidden">
+          {/* Carousel */}
+          <div className="overflow-hidden relative">
             <div
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
               {Array.from({ length: totalSlides }).map((_, slideIndex) => (
-                <div key={slideIndex} className="min-w-full flex justify-center gap-2 sm:gap-4 md:gap-6">
-                  {clients.slice(slideIndex * itemsPerSlide, (slideIndex + 1) * itemsPerSlide).map((client, index) => (
-                    <motion.div
-                      key={index}
-                      className={`flex justify-center ${getLogoWidth()}`}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.3, delay: index * 0.1 }}
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      <div className="h-16 sm:h-20 md:h-24 w-full max-w-[100px] sm:max-w-[120px] md:max-w-[160px] relative flex items-center justify-center filter grayscale hover:grayscale-0 transition-all duration-300">
-                        <Image
-                          src={client.logo || "/placeholder.svg"}
-                          alt={client.name}
-                          fill
-                          sizes="(max-width: 640px) 30vw, (max-width: 1024px) 33vw, 25vw"
-                          style={{ objectFit: "contain" }}
-                        />
-                      </div>
-                    </motion.div>
-                  ))}
+                <div key={slideIndex} className="min-w-full flex justify-center gap-4 md:gap-8">
+                  {clients
+                    .slice(slideIndex * itemsPerSlide, (slideIndex + 1) * itemsPerSlide)
+                    .map((client, clientIndex) => (
+                      <motion.div
+                        key={clientIndex}
+                        className="w-full sm:w-1/2 lg:w-1/4 p-4 flex justify-center"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        <div className="bg-gray-50 dark:bg-[#2a2a2a] p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow w-full h-32 flex items-center justify-center">
+                          <Image
+                            src={client.logo || "/placeholder.svg"}
+                            alt={client.name}
+                            width={150}
+                            height={80}
+                            className="max-h-20 w-auto object-contain filter grayscale hover:grayscale-0 transition-all"
+                          />
+                        </div>
+                      </motion.div>
+                    ))}
                 </div>
               ))}
             </div>
+
+            {/* Controles de navegación */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-[#333333]/80 p-2 rounded-full shadow-md z-10 ml-2"
+              aria-label="Anterior"
+            >
+              <ChevronLeft className="h-6 w-6 text-[#ccb699]" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-[#333333]/80 p-2 rounded-full shadow-md z-10 mr-2"
+              aria-label="Siguiente"
+            >
+              <ChevronRight className="h-6 w-6 text-[#ccb699]" />
+            </button>
           </div>
 
-          {/* Navigation arrows */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 sm:p-2 shadow-md z-10"
-            aria-label="Previous slide"
-          >
-            <ChevronLeft className="h-4 w-4 sm:h-6 sm:w-6 text-gray-700" />
-          </button>
-
-          <button
-            onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 sm:p-2 shadow-md z-10"
-            aria-label="Next slide"
-          >
-            <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6 text-gray-700" />
-          </button>
-
-          {/* Dots indicator */}
-          <div className="flex justify-center mt-6 sm:mt-8 gap-2 flex-wrap">
+          {/* Indicadores */}
+          <div className="flex justify-center mt-8 space-x-2">
             {Array.from({ length: totalSlides }).map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`h-2 rounded-full transition-all ${
-                  currentSlide === index ? "w-6 bg-[#ccb699]" : "w-2 bg-gray-300"
+                onClick={() => goToSlide(index)}
+                className={`w-3 h-3 rounded-full ${
+                  currentSlide === index ? "bg-[#ccb699]" : "bg-gray-300 dark:bg-[#444444]"
                 }`}
-                aria-label={`Go to slide ${index + 1}`}
+                aria-label={`Ir a slide ${index + 1}`}
               />
             ))}
           </div>

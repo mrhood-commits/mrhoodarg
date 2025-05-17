@@ -35,7 +35,10 @@ export function Hero() {
   }
 
   return (
-    <section id="inicio" className="pt-32 pb-20 bg-gradient-to-b from-white to-gray-50">
+    <section
+      id="inicio"
+      className="pt-32 pb-20 bg-gradient-to-b from-white to-gray-50 dark:from-[#222222] dark:to-[#1c1c1c]"
+    >
       <div className="container mx-auto px-4">
         <motion.div className="max-w-4xl mx-auto" variants={container} initial="hidden" animate="show">
           <motion.div
@@ -46,7 +49,7 @@ export function Hero() {
           >
             <div>
               <motion.h1
-                className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 bg-gradient-to-r from-black to-[#ccb699] bg-clip-text text-transparent"
+                className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 bg-gradient-to-r from-black to-[#ccb699] dark:from-white dark:to-[#ccb699] bg-clip-text text-transparent"
                 variants={item}
               >
                 {language === "es"
@@ -61,7 +64,7 @@ export function Hero() {
               <motion.div variants={item}>
                 <Button
                   onClick={openWhatsApp}
-                  className="bg-black hover:bg-gray-800 text-white font-medium px-8 py-6 text-lg rounded-full"
+                  className="bg-black hover:bg-gray-800 dark:bg-[#333333] dark:hover:bg-[#444444] text-white font-medium px-8 py-6 text-lg rounded-full"
                 >
                   {language === "es" ? "SOLICITAR PRESUPUESTO" : "REQUEST A QUOTE"}
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -74,8 +77,8 @@ export function Hero() {
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <div className="bg-gradient-to-br from-[#ccb699]/20 to-[#ccb699]/40 rounded-2xl p-6 flex items-center justify-center shadow-lg">
-                <div className="w-full max-w-[280px] mx-auto bg-[#222222]/80 backdrop-blur-sm rounded-xl flex items-center justify-center p-2 overflow-hidden">
+              <div className="bg-gradient-to-br from-[#ccb699]/20 to-[#ccb699]/40 dark:from-[#ccb699]/10 dark:to-[#ccb699]/30 rounded-2xl p-6 flex items-center justify-center shadow-lg">
+                <div className="w-full max-w-[280px] mx-auto bg-[#222222]/80 dark:bg-black/80 backdrop-blur-sm rounded-xl flex items-center justify-center p-2 overflow-hidden">
                   <VideoPlayer videoId="xT8qfeWlo3o" />
                 </div>
               </div>
