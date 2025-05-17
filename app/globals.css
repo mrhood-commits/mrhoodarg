@@ -171,8 +171,9 @@ iframe.youtube-vertical-video {
   background-color: rgb(28, 28, 28); /* gris oscuro neutro */
 }
 
-.dark .filter.grayscale {
-  filter: grayscale(1) brightness(0.9);
+/* Permitir que los logos en modo oscuro respondan al hover */
+.dark .filter.grayscale:hover {
+  filter: grayscale(0) brightness(1);
 }
 
 /* Transición suave entre temas */

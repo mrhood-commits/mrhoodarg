@@ -60,8 +60,8 @@ export function Clients() {
 
   // Determinar cuántos logos mostrar por slide según el tamaño de pantalla
   const getItemsPerSlide = () => {
-    if (isMobile) return 1
-    if (isTablet) return 2
+    if (isMobile) return 3
+    if (isTablet) return 3
     return 4
   }
 
@@ -134,8 +134,8 @@ export function Clients() {
                     .map((client, clientIndex) => (
                       <motion.div
                         key={clientIndex}
-                        className="w-full sm:w-1/2 lg:w-1/4 p-4 flex justify-center"
-                        whileHover={{ scale: 1.05 }}
+                        className="w-1/3 sm:w-1/3 lg:w-1/4 p-2 md:p-4 flex justify-center"
+                        whileHover={{ scale: 1.05, filter: "grayscale(0)" }}
                         transition={{ type: "spring", stiffness: 300 }}
                       >
                         <div className="bg-gray-50 dark:bg-[#2a2a2a] p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow w-full h-32 flex items-center justify-center">
@@ -145,9 +145,9 @@ export function Clients() {
                               alt={client.name}
                               width={150}
                               height={80}
-                              className="max-h-20 w-auto object-contain filter grayscale hover:grayscale-0 transition-all"
+                              className="max-h-16 md:max-h-20 w-auto object-contain filter grayscale hover:grayscale-0 dark:grayscale dark:hover:grayscale-0 transition-all duration-300"
                               loading="lazy"
-                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                              sizes="(max-width: 640px) 33vw, (max-width: 1024px) 33vw, 25vw"
                               style={{
                                 objectFit: "contain",
                                 maxWidth: "100%",
