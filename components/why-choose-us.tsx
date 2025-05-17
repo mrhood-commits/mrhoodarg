@@ -4,6 +4,7 @@ import { Check, Flame, Wind, AlertTriangle, Award, Globe } from "lucide-react"
 import { useCountry } from "./country-provider"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import Image from "next/image"
 
 export function WhyChooseUs() {
   const { language } = useCountry()
@@ -16,7 +17,15 @@ export function WhyChooseUs() {
     {
       titleEs: "Contamos con Certificado Homologado",
       titleEn: "We have Homologated Certificate",
+      subtitleEs:
+        "Por Gobierno de la Ciudad de Buenos Aires y Asociación de Empresas de Limpieza en Sistemas de Extracción (AELSE)",
+      subtitleEn:
+        "By the Government of the City of Buenos Aires and the Association of Extraction System Cleaning Companies (AELSE)",
       highlight: true,
+      logos: [
+        { src: "/images/logo-buenos-aires.png", alt: "Gobierno de la Ciudad de Buenos Aires", width: 120, height: 40 },
+        { src: "/images/logo-aelse.png", alt: "AELSE", width: 100, height: 40 },
+      ],
     },
     {
       titleEs: "Cumplimiento normativo ante inspecciones",
@@ -167,23 +176,59 @@ export function WhyChooseUs() {
                 {benefits.map((benefit, index) => (
                   <motion.div
                     key={index}
-                    className={`flex items-start space-x-3 p-4 ${benefit.highlight ? "bg-[#ccb699]/20 border-l-4 border-[#ccb699]" : "bg-white"} rounded-lg shadow-sm`}
+                    className={`flex flex-col p-4 ${
+                      benefit.highlight
+                        ? "bg-gradient-to-r from-[#ccb699]/30 to-[#ccb699]/10 border-l-4 border-[#ccb699] shadow-md"
+                        : "bg-white"
+                    } rounded-lg ${benefit.highlight ? "py-6" : ""}`}
                     variants={item}
                     whileHover={{ x: 5 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <div
-                      className={`flex-shrink-0 mt-1 ${benefit.highlight ? "bg-[#ccb699]" : "bg-[#ccb699]"} rounded-full p-1`}
-                    >
-                      {benefit.highlight ? (
-                        <Award className="h-4 w-4 text-white" />
-                      ) : (
-                        <Check className="h-4 w-4 text-white" />
-                      )}
+                    <div className="flex items-start space-x-3">
+                      <div
+                        className={`flex-shrink-0 mt-1 ${benefit.highlight ? "bg-[#ccb699]" : "bg-[#ccb699]"} rounded-full p-1`}
+                      >
+                        {benefit.highlight ? (
+                          <Award className="h-5 w-5 text-white" />
+                        ) : (
+                          <Check className="h-4 w-4 text-white" />
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <p
+                          className={`text-base ${
+                            benefit.highlight ? "font-bold text-[#ccb699] text-lg md:text-xl" : "text-gray-700"
+                          }`}
+                        >
+                          {language === "es" ? benefit.titleEs : benefit.titleEn}
+                        </p>
+                        {benefit.subtitleEs && (
+                          <p className="text-gray-700 mt-1">
+                            {language === "es" ? benefit.subtitleEs : benefit.subtitleEn}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <p className={`text-base ${benefit.highlight ? "font-bold text-[#ccb699]" : "text-gray-700"}`}>
-                      {language === "es" ? benefit.titleEs : benefit.titleEn}
-                    </p>
+
+                    {benefit.logos && (
+                      <div className="flex flex-wrap items-center justify-start gap-6 mt-4 pl-10">
+                        {benefit.logos.map((logo, logoIndex) => (
+                          <div
+                            key={logoIndex}
+                            className="bg-white p-3 rounded-md shadow-sm hover:shadow-md transition-shadow"
+                          >
+                            <Image
+                              src={logo.src || "/placeholder.svg"}
+                              alt={logo.alt}
+                              width={logo.width}
+                              height={logo.height}
+                              className="object-contain"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </motion.div>
                 ))}
               </motion.div>
