@@ -7,10 +7,9 @@ export function ThemeScript() {
           (function() {
             // Verificar si hay una preferencia guardada
             const theme = localStorage.getItem('theme');
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             
             // Aplicar tema según la preferencia
-            if (theme === 'dark' || (theme === 'system' && systemPrefersDark) || (!theme && systemPrefersDark)) {
+            if (theme === 'dark') {
               document.documentElement.classList.add('dark');
             } else {
               document.documentElement.classList.remove('dark');

@@ -139,13 +139,22 @@ export function Clients() {
                         transition={{ type: "spring", stiffness: 300 }}
                       >
                         <div className="bg-gray-50 dark:bg-[#2a2a2a] p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow w-full h-32 flex items-center justify-center">
-                          <Image
-                            src={client.logo || "/placeholder.svg"}
-                            alt={client.name}
-                            width={150}
-                            height={80}
-                            className="max-h-20 w-auto object-contain filter grayscale hover:grayscale-0 transition-all"
-                          />
+                          <div className="relative w-full h-full flex items-center justify-center">
+                            <Image
+                              src={client.logo || "/placeholder.svg"}
+                              alt={client.name}
+                              width={150}
+                              height={80}
+                              className="max-h-20 w-auto object-contain filter grayscale hover:grayscale-0 transition-all"
+                              loading="lazy"
+                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                              style={{
+                                objectFit: "contain",
+                                maxWidth: "100%",
+                                maxHeight: "100%",
+                              }}
+                            />
+                          </div>
                         </div>
                       </motion.div>
                     ))}

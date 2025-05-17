@@ -58,7 +58,16 @@ export function Header() {
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-              <Image src="/images/mrhoodlogo.png" alt="MR HOOD" width={50} height={50} className="h-12 w-auto" />
+              <div className="relative h-12 w-auto">
+                <Image
+                  src="/images/mrhoodlogo.png"
+                  alt="MR HOOD"
+                  width={50}
+                  height={50}
+                  className="h-12 w-auto object-contain"
+                  priority
+                />
+              </div>
             </motion.div>
           </Link>
 
